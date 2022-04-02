@@ -21,11 +21,9 @@ func main() {
 					continue
 				}
 				// 打印监听事件
-				fmt.Println("event:", event)
-			case _, ok := <-watcher.Errors:
-				if !ok {
-					continue
-				}
+				fmt.Println("event: ", event)
+			case err, ok := <-watcher.Errors:
+				fmt.Println("error: ", ok, err)
 			}
 		}
 	}()
