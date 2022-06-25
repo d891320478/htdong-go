@@ -1,4 +1,4 @@
-package main
+package fsnotifyTest
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"github.com/fsnotify/fsnotify"
 )
 
-func main() {
+func Test() {
 	// 创建文件/目录监听器
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
