@@ -7,5 +7,5 @@ import (
 )
 
 func Test(key string, salt []byte) []byte {
-	return pbkdf2.Key([]byte(key), salt, 100000, 32, sha256.New)
+	return pbkdf2.Key([]byte(key), salt, 100000, 128, sha256.New)
 }
