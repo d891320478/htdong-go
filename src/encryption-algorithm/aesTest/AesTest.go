@@ -3,7 +3,6 @@ package aesTest
 import (
 	"crypto/aes"
 	"crypto/cipher"
-	"encoding/base64"
 	"encoding/hex"
 )
 
@@ -26,12 +25,12 @@ func AESGCMEncrypt(origin, seed string) (ciphertext string, err error) {
 	if err != nil {
 		return
 	}
-	ciphertext = base64.RawURLEncoding.EncodeToString(aesgcm.Seal(nil, nonceByte, []byte(origin), nil))
+	ciphertext = hex.EncodeToString(aesgcm.Seal(nil, nonceByte, []byte(origin), nil))
 	return
 }
 
 func AESGCMDecrypt(ciphertextStr, seed string) (origin string, err error) {
-	ciphertext, err := base64.RawURLEncoding.DecodeString(ciphertextStr)
+	ciphertext, err := hex.DecodeString(ciphertextStr)
 	if err != nil {
 		return
 	}
