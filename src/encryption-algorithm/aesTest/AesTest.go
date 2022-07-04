@@ -6,7 +6,7 @@ import (
 	"encoding/hex"
 )
 
-const nonce string = "f3c838dd7b6746a0b5d6df69"
+const nonce string = "cc0b32c963ed4b01b8b16c04"
 
 func AESGCMEncrypt(origin, seed string) (ciphertext string, err error) {
 	seedByte, err := hex.DecodeString(seed)
