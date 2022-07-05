@@ -37,7 +37,16 @@ func main() {
 	mp["e"] = "e"
 	mp["bb"] = "bb"
 	mp["aa"] = "aa"
+	mp["Bcacefef"] = "adfasdf"
 	fmt.Println(mp)
+	for k, v := range mp {
+		fmt.Printf("%s, %s  ", k, v)
+	}
+	fmt.Println()
+	for k, v := range mp {
+		fmt.Printf("%s, %s  ", k, v)
+	}
+	fmt.Println()
 
 	workKeyByte, err := randomByteArray(32)
 	if err != nil {
