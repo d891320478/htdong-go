@@ -54,10 +54,10 @@ func main() {
 	}
 	fmt.Println(hex.EncodeToString(workKeyByte))
 
-	origin := "utf-8"
+	origin := "abcdefg"
 	seed := "bc30af056a041c5608ebf2da933c8f4669b493bea264abd960b005f90c35d89b"
 	ciphertext, _ := aesTest.AESGCMEncrypt(origin, seed)
-	fmt.Println(ciphertext)
-	originStr, _ := aesTest.AESGCMDecrypt("2beb3d440f9df09d9ec59ffc7dfc7086f661116c45bad575847e02afd17feae1", seed)
+	fmt.Println("decrypt = " + ciphertext)
+	originStr, _ := aesTest.AESGCMDecrypt(ciphertext, seed)
 	fmt.Println(originStr)
 }
