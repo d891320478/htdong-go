@@ -21,7 +21,8 @@ func Test() {
 					continue
 				}
 				// 打印监听事件
-				fmt.Println("event: ", event)
+				fmt.Println("file: ", event.Name)
+				fmt.Println("event: ", event.Op)
 			case err, ok := <-watcher.Errors:
 				fmt.Println("error: ", ok, err)
 			}
@@ -32,7 +33,7 @@ func Test() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	err = watcher.Add("/home/admin/conf")
+	err = watcher.Add("/data/configproxy")
 	if err != nil {
 		fmt.Println(err)
 	}

@@ -2,12 +2,9 @@ package main
 
 import (
 	"crypto/rand"
-	"encoding/hex"
 	"fmt"
 	"io"
 	"os"
-
-	"github.com/htdong/gotest/src/encryption-algorithm/aesTest"
 )
 
 func PathExists(path string) bool {
@@ -28,36 +25,10 @@ func randomByteArray(length int) (rlt []byte, err error) {
 }
 
 func main() {
-	mp := make(map[string]string)
-	mp["a"] = "a"
-	mp["b"] = "b"
-	mp["c"] = "c"
-	mp["f"] = "f"
-	mp["d"] = "d"
-	mp["e"] = "e"
-	mp["bb"] = "bb"
-	mp["aa"] = "aa"
-	mp["Bcacefef"] = "adfasdf"
-	fmt.Println(mp)
-	for k, v := range mp {
-		fmt.Printf("%s, %s  ", k, v)
-	}
-	fmt.Println()
-	for k, v := range mp {
-		fmt.Printf("%s, %s  ", k, v)
-	}
-	fmt.Println()
-
-	workKeyByte, err := randomByteArray(32)
-	if err != nil {
-		return
-	}
-	fmt.Println(hex.EncodeToString(workKeyByte))
-
-	origin := "abcdefg"
-	seed := "bc30af056a041c5608ebf2da933c8f4669b493bea264abd960b005f90c35d89b"
-	ciphertext, _ := aesTest.AESGCMEncrypt(origin, seed)
-	fmt.Println("decrypt = " + ciphertext)
-	originStr, _ := aesTest.AESGCMDecrypt(ciphertext, seed)
-	fmt.Println(originStr)
+	//fsnotifyTest.Test()
+	defer fmt.Println("exception")
+	var b int32
+	fmt.Scanf("%d", &b)
+	a := 1 / b
+	fmt.Println(a)
 }
