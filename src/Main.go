@@ -27,6 +27,10 @@ func randomByteArray(length int) (rlt []byte, err error) {
 func main() {
 	//fsnotifyTest.Test()
 	defer fmt.Println("exception")
+	defer func() {
+		err := recover()
+		fmt.Println(err)
+	}()
 	var b int32
 	fmt.Scanf("%d", &b)
 	a := 1 / b
