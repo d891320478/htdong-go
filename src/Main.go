@@ -25,14 +25,19 @@ func randomByteArray(length int) (rlt []byte, err error) {
 }
 
 func main() {
+	_, err := os.Create("/Users/dht31261/Desktop/a.txt")
+	fmt.Println(err)
+	fmt.Println("-----")
+	_, err = os.Create("/Users/dht31261/Desktop/a.txt")
+	fmt.Println(err)
 	//fsnotifyTest.Test()
-	defer fmt.Println("exception")
-	defer func() {
-		err := recover()
-		fmt.Println(err)
-	}()
-	var b int32
-	fmt.Scanf("%d", &b)
-	a := 1 / b
-	fmt.Println(a)
+	// defer fmt.Println("exception")
+	// defer func() {
+	// 	err := recover()
+	// 	fmt.Println(err)
+	// }()
+	// var b int32
+	// fmt.Scanf("%d", &b)
+	// a := 1 / b
+	// fmt.Println(a)
 }
