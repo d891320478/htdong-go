@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"crypto/rand"
 	"fmt"
 	"io"
@@ -25,10 +26,16 @@ func randomByteArray(length int) (rlt []byte, err error) {
 }
 
 func main() {
-	_, err := os.Create("/Users/dht31261/Desktop/a.txt")
+	f, err := os.Create("/Users/dht31261/Desktop/a.txt")
+	write := bufio.NewWriter(f)
+	write.WriteString("1")
+	write.Flush()
 	fmt.Println(err)
 	fmt.Println("-----")
-	_, err = os.Create("/Users/dht31261/Desktop/a.txt")
+	f, err = os.Create("/Users/dht31261/Desktop/a.txt")
+	write = bufio.NewWriter(f)
+	write.WriteString("2")
+	write.Flush()
 	fmt.Println(err)
 	//fsnotifyTest.Test()
 	// defer fmt.Println("exception")
