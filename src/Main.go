@@ -1,11 +1,11 @@
 package main
 
 import (
-	"bufio"
 	"crypto/rand"
 	"fmt"
 	"io"
 	"os"
+	"os/exec"
 )
 
 func PathExists(path string) bool {
@@ -26,25 +26,12 @@ func randomByteArray(length int) (rlt []byte, err error) {
 }
 
 func main() {
-	f, err := os.OpenFile("/Users/dht31261/Desktop/a.txt", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0600)
-	write := bufio.NewWriter(f)
-	write.WriteString("1\n")
-	write.Flush()
-	fmt.Println(err)
-	fmt.Println("-----")
-	f, err = os.OpenFile("/Users/dht31261/Desktop/a.txt", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0600)
-	write = bufio.NewWriter(f)
-	write.WriteString("2\n")
-	write.Flush()
-	fmt.Println(err)
-	//fsnotifyTest.Test()
-	// defer fmt.Println("exception")
-	// defer func() {
-	// 	err := recover()
-	// 	fmt.Println(err)
-	// }()
-	// var b int32
-	// fmt.Scanf("%d", &b)
-	// a := 1 / b
-	// fmt.Println(a)
+	f, _ := os.OpenFile("/Users/dht31261/Desktop/a.txt", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0600)
+	defer f.Close()
+	out := exec.Command("/bin/bash", "-c", "cp /Users/dht31261/Desktop/a.txt /Users/dht31261/Desktop/com")
+	a, err := out.CombinedOutput()
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	fmt.Println(string(a))
 }
