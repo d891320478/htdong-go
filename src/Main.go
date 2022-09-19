@@ -2,10 +2,11 @@ package main
 
 import (
 	"crypto/rand"
-	"fmt"
 	"io"
+	"net/http"
 	"os"
-	"os/exec"
+	"strconv"
+	"time"
 )
 
 func PathExists(path string) bool {
@@ -25,13 +26,22 @@ func randomByteArray(length int) (rlt []byte, err error) {
 	return
 }
 
+func checkStatus(w http.ResponseWriter, req *http.Request) {
+	w.Write([]byte("success"))
+}
+
+func wait(w http.ResponseWriter, req *http.Request) {
+	sleep, _ := strconv.ParseInt(req.URL.Query().Get("sleep"), 10, 64)
+	time.Sleep(time.Duration(sleep) * time.Second)
+	w.Write([]byte("wait"))
+}
+
 func main() {
-	f, _ := os.OpenFile("/Users/dht31261/Desktop/a.txt", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0600)
-	defer f.Close()
-	out := exec.Command("/bin/bash", "-c", "cp /Users/dht31261/Desktop/a.txt /Users/dht31261/Desktop/com")
-	a, err := out.CombinedOutput()
-	if err != nil {
-		fmt.Println(err.Error())
+	port := os.Args[1]
+	if len(port) == 0 {
+		port = "54325"
 	}
-	fmt.Println(string(a))
+	http.HandleFunc("/checkstatus", checkStatus)
+	http.HandleFunc("/wait", wait)
+	http.ListenAndServe(":"+port, nil)
 }
