@@ -2,10 +2,12 @@ package main
 
 import (
 	"crypto/rand"
+	"fmt"
 	"io"
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -37,11 +39,6 @@ func wait(w http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	port := os.Args[1]
-	if len(port) == 0 {
-		port = "54325"
-	}
-	http.HandleFunc("/checkstatus", checkStatus)
-	http.HandleFunc("/wait", wait)
-	http.ListenAndServe(":"+port, nil)
+	filePath := "abc/abcd"
+	fmt.Println(filePath[strings.LastIndex(filePath, "/")+1:])
 }
