@@ -1,14 +1,17 @@
 package main
 
 import (
+	"bufio"
 	"crypto/rand"
 	"encoding/base64"
-	"fmt"
 	"io"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strconv"
 	"time"
+
+	"github.com/aokoli/goutils"
 )
 
 func PathExists(path string) bool {
@@ -38,8 +41,25 @@ func wait(w http.ResponseWriter, req *http.Request) {
 	w.Write([]byte("wait"))
 }
 
+const root_key_assembly_length = 128
+
+func rt() {
+	dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
+	rtkStr, _ := goutils.CryptoRandomNumeric(root_key_assembly_length)
+	rtkFile, _ := os.OpenFile(dir+"/rtk", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0600)
+	defer rtkFile.Close()
+	write := bufio.NewWriter(rtkFile)
+	write.WriteString(base64.StdEncoding.EncodeToString([]byte(rtkStr)))
+	write.Flush()
+
+	rtsStr, _ := goutils.CryptoRandomNumeric(root_key_assembly_length)
+	rtsFile, _ := os.OpenFile(dir+"/rts", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0600)
+	defer rtsFile.Close()
+	write = bufio.NewWriter(rtsFile)
+	write.WriteString(base64.StdEncoding.EncodeToString([]byte(rtsStr)))
+	write.Flush()
+}
+
 func main() {
-	f, _ := base64.StdEncoding.DecodeString("Myt+cnghYVQweT5VOzJNN1tOO2d9SEFYZFd2RUg2JExwQCB9flxkdD0wQllwW0JPZ1VCcCRlJ3NDaVl6LDcjOkMjcTBYXTNUI1pAcVEobzc+I1MkTT4lUE9oRCd6fE0mLSpJX3x6RDhPVWBNOXBwVihCdXB6NTIjXkxpO1whREA=")
-	g := "3+~rx!aT0y>U;2M7[N;g}HAXdWvEH6$Lp@ }~\\dt=0BYp[BOgUBp$e'sCiYz,7#:C#q0X]3T#Z@qQ(o7>#S$M>%POhD'z|M&-*I_|zD8OU`M9ppV(Bupz52#^Li;\\!D@"
-	fmt.Println(string(f) == g)
+	rt()
 }
