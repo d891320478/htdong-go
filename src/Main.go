@@ -45,14 +45,14 @@ const root_key_assembly_length = 128
 
 func rt() {
 	dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
-	rtkStr, _ := goutils.CryptoRandomNumeric(root_key_assembly_length)
+	rtkStr, _ := goutils.CryptoRandom(root_key_assembly_length, 0, 127, false, false)
 	rtkFile, _ := os.OpenFile(dir+"/rtk", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0600)
 	defer rtkFile.Close()
 	write := bufio.NewWriter(rtkFile)
 	write.WriteString(base64.StdEncoding.EncodeToString([]byte(rtkStr)))
 	write.Flush()
 
-	rtsStr, _ := goutils.CryptoRandomNumeric(root_key_assembly_length)
+	rtsStr, _ := goutils.CryptoRandom(root_key_assembly_length, 0, 127, false, false)
 	rtsFile, _ := os.OpenFile(dir+"/rts", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0600)
 	defer rtsFile.Close()
 	write = bufio.NewWriter(rtsFile)
