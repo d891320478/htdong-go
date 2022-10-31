@@ -4,11 +4,13 @@ import (
 	"bufio"
 	"crypto/rand"
 	"encoding/base64"
+	"fmt"
 	"io"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/aokoli/goutils"
@@ -61,5 +63,6 @@ func rt() {
 }
 
 func main() {
-	rt()
+	// rt()
+	fmt.Println(strings.Split("abc", "."))
 }
