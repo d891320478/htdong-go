@@ -4,16 +4,12 @@ import (
 	"bufio"
 	"crypto/rand"
 	"encoding/base64"
-	"fmt"
 	"io"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strconv"
-	"strings"
 	"time"
-
-	"github.com/aokoli/goutils"
 )
 
 func PathExists(path string) bool {
@@ -47,14 +43,14 @@ const root_key_assembly_length = 128
 
 func rt() {
 	dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
-	rtkStr, _ := goutils.CryptoRandom(root_key_assembly_length, 0, 127, false, false)
+	rtkStr, _ := randomByteArray(root_key_assembly_length)
 	rtkFile, _ := os.OpenFile(dir+"/rtk", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0600)
 	defer rtkFile.Close()
 	write := bufio.NewWriter(rtkFile)
 	write.WriteString(base64.StdEncoding.EncodeToString([]byte(rtkStr)))
 	write.Flush()
 
-	rtsStr, _ := goutils.CryptoRandom(root_key_assembly_length, 0, 127, false, false)
+	rtsStr, _ := randomByteArray(root_key_assembly_length)
 	rtsFile, _ := os.OpenFile(dir+"/rts", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0600)
 	defer rtsFile.Close()
 	write = bufio.NewWriter(rtsFile)
@@ -63,6 +59,5 @@ func rt() {
 }
 
 func main() {
-	// rt()
-	fmt.Println(strings.Split("abc", "."))
+	rt()
 }
