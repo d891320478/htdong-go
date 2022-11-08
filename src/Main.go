@@ -1,13 +1,11 @@
 package main
 
 import (
-	"bufio"
 	"crypto/rand"
-	"encoding/base64"
+	"fmt"
 	"io"
 	"net/http"
 	"os"
-	"path/filepath"
 	"strconv"
 	"time"
 )
@@ -39,25 +37,9 @@ func wait(w http.ResponseWriter, req *http.Request) {
 	w.Write([]byte("wait"))
 }
 
-const root_key_assembly_length = 128
-
-func rt() {
-	dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
-	rtkStr, _ := randomByteArray(root_key_assembly_length)
-	rtkFile, _ := os.OpenFile(dir+"/rtk", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0600)
-	defer rtkFile.Close()
-	write := bufio.NewWriter(rtkFile)
-	write.WriteString(base64.StdEncoding.EncodeToString([]byte(rtkStr)))
-	write.Flush()
-
-	rtsStr, _ := randomByteArray(root_key_assembly_length)
-	rtsFile, _ := os.OpenFile(dir+"/rts", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0600)
-	defer rtsFile.Close()
-	write = bufio.NewWriter(rtsFile)
-	write.WriteString(base64.StdEncoding.EncodeToString([]byte(rtsStr)))
-	write.Flush()
-}
-
 func main() {
-	rt()
+	mp := make(map[string]string)
+	mp["a"] = "b"
+	_, ok := mp["x"]
+	fmt.Println(ok)
 }
