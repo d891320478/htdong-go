@@ -2,7 +2,6 @@ package main
 
 import (
 	"crypto/rand"
-	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -38,5 +37,4 @@ func wait(w http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	fmt.Println(3 &^ 1)
 }
