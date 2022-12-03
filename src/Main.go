@@ -38,8 +38,5 @@ func wait(w http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	mp := make(map[string]string)
-	mp["a"] = "b"
-	_, ok := mp["x"]
-	fmt.Println(ok)
+	fmt.Println(3 &^ 1)
 }
