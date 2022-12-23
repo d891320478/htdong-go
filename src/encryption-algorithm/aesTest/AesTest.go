@@ -44,7 +44,7 @@ func AESGCMDecrypt(ciphertextStr, seed string) (origin string, err error) {
 	}
 	aesgcm, err := cipher.NewGCM(block)
 	if err != nil {
-		panic(err.Error())
+		return
 	}
 	nonceByte, err := hex.DecodeString(nonce)
 	if err != nil {
