@@ -118,7 +118,7 @@ func main() {
 		panic("write rtk file error." + err.Error())
 	}
 	write := bufio.NewWriter(rtkFile)
-	write.WriteString(rtkStr)
+	write.WriteString(base64.StdEncoding.EncodeToString([]byte(rtkStr)))
 	write.Flush()
 
 	rtsStr, _ := goutils.CryptoRandomAscii(128)
@@ -128,6 +128,6 @@ func main() {
 		panic("write rts file error." + err.Error())
 	}
 	write = bufio.NewWriter(rtsFile)
-	write.WriteString(rtsStr)
+	write.WriteString(base64.StdEncoding.EncodeToString([]byte(rtsStr)))
 	write.Flush()
 }
