@@ -4,13 +4,18 @@ import (
 	"bufio"
 	"crypto/rand"
 	"encoding/base64"
+	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
+	"runtime/debug"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/aokoli/goutils"
+	"github.com/htdong/gotest/src/bililive"
 )
 
 func PathExists(path string) bool {
@@ -110,7 +115,7 @@ func GetSaltStr() (val []byte) {
 	return
 }
 
-func main() {
+func createRt() {
 	rtkStr, _ := goutils.CryptoRandomAscii(128)
 	rtkFile, err := os.OpenFile("rtk", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0600)
 	defer rtkFile.Close()
@@ -129,5 +134,71 @@ func main() {
 	}
 	write = bufio.NewWriter(rtsFile)
 	write.WriteString(base64.StdEncoding.EncodeToString([]byte(rtsStr)))
+	write.Flush()
+}
+
+func Throwable() {
+	err := recover()
+	if err == nil {
+		return
+	}
+	fmt.Println(err)
+	fmt.Println(string(debug.Stack()))
+}
+
+const song_list_file = "list.txt"
+
+func biliToupiao() {
+	if !PathExists(song_list_file) {
+		file, _ := os.Create(song_list_file)
+		defer file.Close()
+		w := bufio.NewWriter(file)
+		w.WriteString("")
+		w.Flush()
+		file.Close()
+	}
+	stdinReader := bufio.NewReader(os.Stdin)
+	fmt.Println("歌单放到list.txt，然后按回车。。。。。。")
+	stdinReader.ReadString('\n')
+	// 读取歌单内容，生成编号，初始化票数
+	mp := make(map[int]int)
+	bytes, _ := ioutil.ReadFile("list.txt")
+	var list []string = strings.Split(string(bytes), "\n")
+	total := len(list)
+	for len(list[total-1]) == 0 {
+		list = list[:total-1]
+		total--
+	}
+	for i := 0; i < total; i++ {
+		mp[i] = 0
+	}
+	fmt.Println(total)
+	fmt.Println(list)
+	fmt.Println(mp)
+	// 回写文件
+	writeToListFile(mp, list, total)
+
+	var channel chan int = make(chan int)
+
+	bililive.Register(channel, total)
+	for {
+		val := <-channel
+		mp[val-1]++
+		writeToListFile(mp, list, total)
+	}
+}
+
+func main() {
+	defer Throwable()
+}
+
+func writeToListFile(mp map[int]int, list []string, total int) {
+	file, _ := os.OpenFile(song_list_file, os.O_WRONLY, os.ModeAppend)
+	defer file.Close()
+	write := bufio.NewWriter(file)
+	for i := 0; i < total; i++ {
+		val := strconv.Itoa(i+1) + ". " + list[i] + "   " + strconv.Itoa(mp[i]) + " 票\n"
+		write.WriteString(val)
+	}
 	write.Flush()
 }
