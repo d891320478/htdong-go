@@ -7,7 +7,6 @@ import (
 
 	"github.com/Akegarasu/blivedm-go/client"
 	"github.com/Akegarasu/blivedm-go/message"
-	_ "github.com/Akegarasu/blivedm-go/utils"
 )
 
 const roomId = "222272"

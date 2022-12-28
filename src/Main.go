@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"path/filepath"
 	"runtime/debug"
 	"strconv"
 	"strings"
@@ -190,6 +191,9 @@ func biliToupiao() {
 
 func main() {
 	defer Throwable()
+
+	file, _ := os.Open("/Users/dht31261/ssh/10.2.sh")
+	fmt.Println(filepath.Base(file.Name()))
 }
 
 func writeToListFile(mp map[int]int, list []string, total int) {
