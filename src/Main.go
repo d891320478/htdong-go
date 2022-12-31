@@ -165,7 +165,7 @@ func biliToupiao() {
 	bytes, _ := ioutil.ReadFile("list.txt")
 	var list []string = strings.Split(string(bytes), "\n")
 	total := len(list)
-	for len(list[total-1]) == 0 {
+	for len(list[total-1]) == 0 || len(strings.TrimSpace(list[total-1])) == 0 {
 		list = list[:total-1]
 		total--
 	}
