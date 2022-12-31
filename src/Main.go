@@ -198,7 +198,7 @@ func writeToListFile(mp map[int]int, list []string, total int) {
 	defer file.Close()
 	write := bufio.NewWriter(file)
 	for i := 0; i < total; i++ {
-		val := strconv.Itoa(i+1) + ". " + list[i] + "   " + strconv.Itoa(mp[i]) + " 票\r\n"
+		val := strconv.Itoa(i+1) + ". " + strings.TrimSpace(list[i]) + "   " + strconv.Itoa(mp[i]) + " 票\r\n"
 		write.WriteString(val)
 	}
 	write.Flush()
