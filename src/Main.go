@@ -158,7 +158,7 @@ func biliToupiao() {
 		file.Close()
 	}
 	stdinReader := bufio.NewReader(os.Stdin)
-	fmt.Println("歌单放到list.txt，然后按回车。。。。。。")
+	fmt.Println("歌单放到list.txt，保存，然后按回车。。。。。。")
 	stdinReader.ReadString('\n')
 	// 读取歌单内容，生成编号，初始化票数
 	mp := make(map[int]int)
