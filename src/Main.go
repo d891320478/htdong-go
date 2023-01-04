@@ -6,7 +6,6 @@ import (
 	"encoding/base64"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"runtime/debug"
@@ -162,13 +161,25 @@ func biliToupiao() {
 	stdinReader.ReadString('\n')
 	// 读取歌单内容，生成编号，初始化票数
 	mp := make(map[int]int)
-	bytes, _ := ioutil.ReadFile("list.txt")
-	var list []string = strings.Split(string(bytes), "\n")
-	total := len(list)
-	for len(list[total-1]) == 0 || len(strings.TrimSpace(list[total-1])) == 0 {
-		list = list[:total-1]
-		total--
+
+	f, _ := os.Open("list.txt")
+	defer f.Close()
+	r := bufio.NewReader(f)
+	var list []string
+	for {
+		//读取，返回[]byte 单行切片给b
+		b, _, err := r.ReadLine()
+		if err != nil {
+			if err == io.EOF {
+				break
+			}
+		}
+		if len(b) > 0 {
+			list = append(list, string(b))
+		}
 	}
+	total := len(list)
+
 	for i := 0; i < total; i++ {
 		mp[i] = 0
 	}
