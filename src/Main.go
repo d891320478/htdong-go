@@ -15,7 +15,6 @@ import (
 
 	"github.com/aokoli/goutils"
 	"github.com/htdong/gotest/src/bililive"
-	"github.com/htdong/gotest/src/readini"
 )
 
 func PathExists(path string) bool {
@@ -202,7 +201,6 @@ func biliToupiao() {
 
 func main() {
 	defer Throwable()
-	readini.ReadIni()
 	biliToupiao()
 }
 
