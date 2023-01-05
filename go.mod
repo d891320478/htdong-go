@@ -13,6 +13,7 @@ require (
 require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect
+	github.com/larspensjo/config v0.0.0-20160228172812-b6db95dc6321 // indirect
 	github.com/sirupsen/logrus v1.9.0 // indirect
 	github.com/tidwall/gjson v1.14.4 // indirect
 	github.com/tidwall/match v1.1.1 // indirect
