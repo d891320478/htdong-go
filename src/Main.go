@@ -172,13 +172,13 @@ func biliToupiao() {
 	if len(list2) > 3 {
 		for _, v := range list2 {
 			if len(strings.TrimSpace(v)) > 0 {
-				list = append(list, v)
+				list = append(list, strings.TrimSpace(v))
 			}
 		}
 	} else {
 		for _, v := range list1 {
 			if len(strings.TrimSpace(v)) > 0 {
-				list = append(list, v)
+				list = append(list, strings.TrimSpace(v))
 			}
 		}
 	}
