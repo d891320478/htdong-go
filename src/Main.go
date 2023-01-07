@@ -166,20 +166,19 @@ func biliToupiao() {
 	f, _ := os.Open("list.txt")
 	defer f.Close()
 	a, _ := ioutil.ReadAll(f)
-	list1 := strings.Split(string(a), "\r")
-	list2 := strings.Split(string(a), "\n")
 	var list []string
-	if len(list2) > 3 {
-		for _, v := range list2 {
-			if len(strings.TrimSpace(v)) > 0 {
-				list = append(list, strings.TrimSpace(v))
+	tmp := make([]byte, 0)
+	for _, v := range a {
+		if v == byte(10) || v == byte(13) {
+			ss := string(tmp)
+			fmt.Println(tmp)
+			fmt.Printf("ss = %s\n", ss)
+			if len(strings.TrimSpace(ss)) > 0 {
+				list = append(list, strings.TrimSpace(ss))
 			}
-		}
-	} else {
-		for _, v := range list1 {
-			if len(strings.TrimSpace(v)) > 0 {
-				list = append(list, strings.TrimSpace(v))
-			}
+			tmp = make([]byte, 0)
+		} else {
+			tmp = append(tmp, v)
 		}
 	}
 	total := len(list)
