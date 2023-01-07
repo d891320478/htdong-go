@@ -6,6 +6,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"runtime/debug"
@@ -164,18 +165,21 @@ func biliToupiao() {
 
 	f, _ := os.Open("list.txt")
 	defer f.Close()
-	r := bufio.NewReader(f)
+	a, _ := ioutil.ReadAll(f)
+	list1 := strings.Split(string(a), "\r")
+	list2 := strings.Split(string(a), "\n")
 	var list []string
-	for {
-		//读取，返回[]byte 单行切片给b
-		b, _, err := r.ReadLine()
-		if err != nil {
-			if err == io.EOF {
-				break
+	if len(list2) > 3 {
+		for _, v := range list2 {
+			if len(strings.TrimSpace(v)) > 0 {
+				list = append(list, v)
 			}
 		}
-		if len(b) > 0 {
-			list = append(list, string(b))
+	} else {
+		for _, v := range list1 {
+			if len(strings.TrimSpace(v)) > 0 {
+				list = append(list, v)
+			}
 		}
 	}
 	total := len(list)
