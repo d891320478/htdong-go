@@ -166,6 +166,7 @@ func biliToupiao() {
 	f, _ := os.Open("list.txt")
 	defer f.Close()
 	a, _ := ioutil.ReadAll(f)
+	a = append(a, 13)
 	var list []string
 	tmp := make([]byte, 0)
 	for _, v := range a {
