@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"crypto/rand"
 	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -203,9 +204,40 @@ func biliToupiao() {
 	}
 }
 
+type FormVO struct {
+	ServerVersion     string `json:"serverVersion"`
+	ServerOwner       string `json:"serverOwner"`
+	ServerName        string `json:"serverName"`
+	ServerLastVersion string `json:"serverLastVersion"`
+	ServerDescr       string `json:"serverDescr"`
+	Repository        string `json:"repository"`
+}
+
+func insert() {
+	f := os.Args[1]
+	file, _ := os.Open(f)
+	defer file.Close()
+	var list []FormVO
+	for {
+		var name, ver string
+		n, err := fmt.Fscanf(file, "%s %s", &name, &ver)
+		if err == io.EOF {
+			break
+		}
+		if n < 2 {
+			continue
+		}
+		vo := FormVO{ver, "张晓辉", name, "", "", "apaas"}
+		list = append(list, vo)
+	}
+	server, _ := json.Marshal(list)
+	fmt.Printf("insert into baas_apply (descr, push_time, need_time, clusters, servers, resources, stat, creator_id, gmt_create, gmt_modified, tester, per) values ('', LEFT(now(), 16), CONCAT(LEFT(now(), 16) , ',' , LEFT(now(), 16)), '[176]', '%s', '[]', 0, 1502, now(), now(), '8889006337', '8889006937');", server)
+}
+
 func main() {
 	defer Throwable()
-	biliToupiao()
+	insert()
+	// biliToupiao()
 }
 
 func writeToListFile(mp map[int]int, list []string, total int) {
