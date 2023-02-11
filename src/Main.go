@@ -169,6 +169,10 @@ func biliToupiao() {
 	a, _ := ioutil.ReadAll(f)
 	a = append(a, 13)
 	var list []string
+	list = append(list, "规则：征集时请把想听的歌打在弹幕 选曲没任何限制0w0")
+	list = append(list, "投票时每个人最多三票")
+	list = append(list, "会唱的里面得票最高的今天唱 不会唱的里面得票最高的下周唱")
+
 	tmp := make([]byte, 0)
 	for _, v := range a {
 		if v == byte(10) || v == byte(13) {
@@ -236,8 +240,8 @@ func insert() {
 
 func main() {
 	defer Throwable()
-	insert()
-	// biliToupiao()
+	// insert()
+	biliToupiao()
 }
 
 func writeToListFile(mp map[int]int, list []string, total int) {
