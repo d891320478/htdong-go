@@ -218,10 +218,10 @@ type FormVO struct {
 
 func main() {
 	defer Throwable()
-	timeTemplate1 := "2006-01-02T15:04:05Z"
-	stamp, _ := time.ParseInLocation(timeTemplate1, "2019-10-01T15:15:00Z", time.Local)
-	fmt.Println(stamp.Year())
 	// biliToupiao()
+	bililive.AllDanMu()
+	for {
+	}
 }
 
 func writeToListFile(mp map[int]int, list []string, total int) {
