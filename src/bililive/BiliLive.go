@@ -47,7 +47,7 @@ func AllDanMu() {
 	//弹幕事件
 	c.OnDanmaku(func(danmaku *message.Danmaku) {
 		if danmaku.Type != message.EmoticonDanmaku {
-			writeToFile(danmaku.Sender.Uname, danmaku.Content, danmaku.Sender.Uid)
+			writeToFile(time.Unix(danmaku.Timestamp/1000, 0).Format("2006-01-02 15:04:05"), danmaku.Sender.Uname, danmaku.Content, danmaku.Sender.Uid)
 		}
 	})
 	err := c.Start()
@@ -56,13 +56,13 @@ func AllDanMu() {
 	}
 }
 
-func writeToFile(uname, content string, uid int) {
+func writeToFile(tm, uname, content string, uid int) {
 	now := time.Now()
 	filePath := fmt.Sprintf(danmuFilePath, now.Year(), now.Format("01"), now.Format("02"))
 	file, _ := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0600)
 	defer file.Close()
 	write := bufio.NewWriter(file)
-	write.WriteString(fmt.Sprintf("%s[%d]: %s\n", uname, uid, content))
+	write.WriteString(fmt.Sprintf("[%s] %s[%d]: %s\n", tm, uname, uid, content))
 	write.Flush()
 	file.Close()
 }
