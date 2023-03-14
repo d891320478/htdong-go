@@ -207,15 +207,6 @@ func biliToupiao() {
 	}
 }
 
-type FormVO struct {
-	ServerVersion     string `json:"serverVersion"`
-	ServerOwner       string `json:"serverOwner"`
-	ServerName        string `json:"serverName"`
-	ServerLastVersion string `json:"serverLastVersion"`
-	ServerDescr       string `json:"serverDescr"`
-	Repository        string `json:"repository"`
-}
-
 func main() {
 	defer Throwable()
 	// biliToupiao()
