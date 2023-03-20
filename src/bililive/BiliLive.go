@@ -59,7 +59,7 @@ func AllDanMu() {
 func writeToFile(tm, uname, content string, uid int) {
 	now := time.Now()
 	filePath := fmt.Sprintf(danmuFilePath, now.Year(), now.Format("01"), now.Format("02"))
-	file, _ := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0600)
+	file, _ := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
 	defer file.Close()
 	write := bufio.NewWriter(file)
 	write.WriteString(fmt.Sprintf("[%s] %s[%d]: %s\n", tm, uname, uid, content))
