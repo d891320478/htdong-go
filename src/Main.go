@@ -212,6 +212,7 @@ func main() {
 	// biliToupiao()
 	bililive.AllDanMu()
 	for {
+		time.Sleep(5 * time.Minute)
 	}
 }
 
