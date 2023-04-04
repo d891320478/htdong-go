@@ -16,6 +16,7 @@ import (
 
 	"github.com/aokoli/goutils"
 	"github.com/htdong/gotest/src/bililive"
+	"github.com/htdong/gotest/src/encryption-algorithm/smTest"
 )
 
 func PathExists(path string) bool {
@@ -209,11 +210,13 @@ func biliToupiao() {
 
 func main() {
 	defer Throwable()
+	// smTest.Sm2WriteKeyFile()
+	smTest.Sm2Encrypt()
 	// biliToupiao()
-	bililive.AllDanMu()
-	for {
-		time.Sleep(5 * time.Minute)
-	}
+	// bililive.AllDanMu()
+	// for {
+	// 	time.Sleep(5 * time.Minute)
+	// }
 }
 
 func writeToListFile(mp map[int]int, list []string, total int) {
