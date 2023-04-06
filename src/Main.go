@@ -16,7 +16,7 @@ import (
 
 	"github.com/aokoli/goutils"
 	"github.com/htdong/gotest/src/bililive"
-	"github.com/htdong/gotest/src/encryption-algorithm/smTest"
+	"github.com/htdong/gotest/src/redisService"
 )
 
 func PathExists(path string) bool {
@@ -210,8 +210,9 @@ func biliToupiao() {
 
 func main() {
 	defer Throwable()
+	redisService.Get("configproxy-init-workkey-mysql")
 	// smTest.Sm2WriteKeyFile()
-	smTest.Sm2Encrypt()
+	// smTest.Sm2Encrypt()
 	// biliToupiao()
 	// bililive.AllDanMu()
 	// for {
