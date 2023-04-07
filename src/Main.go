@@ -210,7 +210,7 @@ func biliToupiao() {
 
 func main() {
 	defer Throwable()
-	redisService.Get("configproxy-init-workkey-mysql")
+	redisService.Get("configproxy-init-workkey-lock-redis")
 	// smTest.Sm2WriteKeyFile()
 	// smTest.Sm2Encrypt()
 	// biliToupiao()
