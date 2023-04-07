@@ -210,7 +210,17 @@ func biliToupiao() {
 
 func main() {
 	defer Throwable()
-	redisService.Get("configproxy-init-workkey-lock-redis")
+	key := "redis-lock"
+	redisService.UnLock(key)
+	go func() {
+		redisService.Lock(key, 20, time.Second)
+		time.Sleep(60 * time.Second)
+		redisService.UnLock(key)
+	}()
+	for {
+		time.Sleep(5 * time.Second)
+		fmt.Println(redisService.Get(key))
+	}
 	// smTest.Sm2WriteKeyFile()
 	// smTest.Sm2Encrypt()
 	// biliToupiao()
