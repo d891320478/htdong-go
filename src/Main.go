@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"context"
 	"crypto/rand"
 	"encoding/base64"
 	"fmt"
@@ -16,7 +17,7 @@ import (
 
 	"github.com/aokoli/goutils"
 	"github.com/htdong/gotest/src/bililive"
-	"github.com/htdong/gotest/src/redisService"
+	"github.com/redis/go-redis/v9"
 )
 
 func PathExists(path string) bool {
@@ -208,19 +209,19 @@ func biliToupiao() {
 	}
 }
 
+func getServerFromSentinel() {
+	sentinel := redis.NewSentinelClient(&redis.Options{
+		Addr: "10.0.19.102:26379",
+		// Password: "6iDrKRF1OW5sKIvj",
+	})
+	addr, err := sentinel.GetMasterAddrByName(context.Background(), "main").Result()
+	fmt.Println(addr)
+	fmt.Println(err)
+}
+
 func main() {
 	defer Throwable()
-	key := "redis-lock"
-	redisService.UnLock(key)
-	go func() {
-		redisService.Lock(key, 20, time.Second)
-		time.Sleep(60 * time.Second)
-		redisService.UnLock(key)
-	}()
-	for {
-		time.Sleep(5 * time.Second)
-		fmt.Println(redisService.Get(key))
-	}
+	getServerFromSentinel()
 	// smTest.Sm2WriteKeyFile()
 	// smTest.Sm2Encrypt()
 	// biliToupiao()

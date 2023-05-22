@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/aokoli/goutils"
-	"github.com/go-redis/redis"
+	"github.com/redis/go-redis/v9"
 )
 
 var ctx = context.Background()
@@ -24,17 +24,17 @@ func init() {
 }
 
 func Get(key string) string {
-	val, _ := redisClient.Get(key).Result()
+	val, _ := redisClient.Get(context.Background(), key).Result()
 	return val
 }
 
 func Del(key string) {
-	redisClient.Del(key)
+	redisClient.Del(context.Background(), key)
 }
 
 func Lock(key string, tm, unit time.Duration) bool {
 	val, _ := goutils.CryptoRandomAscii(32)
-	success, err := redisClient.SetNX(key, val, tm*unit).Result()
+	success, err := redisClient.SetNX(context.Background(), key, val, tm*unit).Result()
 	if err != nil {
 		return false
 	}
@@ -48,9 +48,9 @@ func Lock(key string, tm, unit time.Duration) bool {
 			minSleepTime := expire / 3 * 2
 			for {
 				time.Sleep(minSleepTime)
-				vv, err := redisClient.Get(key).Result()
+				vv, err := redisClient.Get(context.Background(), key).Result()
 				if err == nil && vv == val {
-					redisClient.Expire(key, expire)
+					redisClient.Expire(context.Background(), key, expire)
 				} else {
 					break
 				}
@@ -61,5 +61,5 @@ func Lock(key string, tm, unit time.Duration) bool {
 }
 
 func UnLock(key string) {
-	redisClient.Del(key).Result()
+	redisClient.Del(context.Background(), key).Result()
 }
