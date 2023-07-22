@@ -17,6 +17,7 @@ import (
 
 	"github.com/aokoli/goutils"
 	"github.com/htdong/gotest/src/bililive"
+	"github.com/htdong/gotest/src/redisService"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -211,8 +212,8 @@ func biliToupiao() {
 
 func getServerFromSentinel() {
 	sentinel := redis.NewSentinelClient(&redis.Options{
-		Addr: "10.0.19.102:26379",
-		// Password: "6iDrKRF1OW5sKIvj",
+		Addr: "10.0.20.67:26379",
+		// Password: "donghaotian",
 	})
 	addr, err := sentinel.GetMasterAddrByName(context.Background(), "main").Result()
 	fmt.Println(addr)
@@ -221,7 +222,9 @@ func getServerFromSentinel() {
 
 func main() {
 	defer Throwable()
-	getServerFromSentinel()
+	redisService.Put("sso1", "sso1", 1, time.Minute)
+	fmt.Println(redisService.Get("sso1"))
+	// getServerFromSentinel()
 	// smTest.Sm2WriteKeyFile()
 	// smTest.Sm2Encrypt()
 	// biliToupiao()

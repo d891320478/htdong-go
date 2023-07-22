@@ -2,6 +2,7 @@ package redisService
 
 import (
 	"context"
+	"strings"
 	"time"
 
 	"github.com/aokoli/goutils"
@@ -12,20 +13,26 @@ var ctx = context.Background()
 var redisClient *redis.Client
 
 func init() {
-	// redisClient = redis.NewFailoverClient(&redis.FailoverOptions{
-	// 	MasterName:    "main",
-	// 	SentinelAddrs: strings.Split("10.0.19.102:26379", ","),
-	// 	Password:      "6iDrKRF1OW5sKIvj",
-	// })
-	redisClient = redis.NewClient(&redis.Options{
-		Addr: "127.0.0.1:6379",
-		DB:   0,
+	redisClient = redis.NewFailoverClient(&redis.FailoverOptions{
+		MasterName:    "mymaster",
+		SentinelAddrs: strings.Split("10.0.20.67:26379", ","),
+		Password:      "donghaotian",
+		DB:            0,
 	})
+	// redisClient = redis.NewClient(&redis.Options{
+	// 	Addr:     "10.0.20.67:6379",
+	// 	DB:       0,
+	// 	Password: "donghaotian",
+	// })
 }
 
 func Get(key string) string {
 	val, _ := redisClient.Get(context.Background(), key).Result()
 	return val
+}
+
+func Put(key, val string, tm, unit time.Duration) {
+	redisClient.Set(context.Background(), key, val, tm*unit)
 }
 
 func Del(key string) {
