@@ -13,18 +13,19 @@ import (
 )
 
 const roomId = "222272"
+const uid = "325170"
 const danmuFilePath = "/data/biliDanMu222272/%d-%s-%s.log"
 
 func Register(channel chan int, total int) {
 	limit := make(map[int]int)
 	lock := new(sync.RWMutex)
-	c := client.NewClient(roomId)
+	c := client.NewClient(roomId, uid)
 	//弹幕事件
 	c.OnDanmaku(func(danmaku *message.Danmaku) {
+		fmt.Printf("[弹幕] %s[%d]：%s\n", danmaku.Sender.Uname, danmaku.Sender.Uid, danmaku.Content)
 		if danmaku.Type != message.EmoticonDanmaku {
 			val, err := strconv.Atoi(danmaku.Content)
 			if err == nil {
-				fmt.Printf("[弹幕] %s：%s\n", danmaku.Sender.Uname, danmaku.Content)
 				if val > 0 && val <= total {
 					lock.Lock()
 					limit[danmaku.Sender.Uid]++
@@ -43,7 +44,7 @@ func Register(channel chan int, total int) {
 }
 
 func AllDanMu() {
-	c := client.NewClient(roomId)
+	c := client.NewClient(roomId, uid)
 	//弹幕事件
 	c.OnDanmaku(func(danmaku *message.Danmaku) {
 		if danmaku.Type != message.EmoticonDanmaku {

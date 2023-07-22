@@ -17,7 +17,6 @@ import (
 
 	"github.com/aokoli/goutils"
 	"github.com/htdong/gotest/src/bililive"
-	"github.com/htdong/gotest/src/redisService"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -222,12 +221,12 @@ func getServerFromSentinel() {
 
 func main() {
 	defer Throwable()
-	redisService.Put("sso1", "sso1", 1, time.Minute)
-	fmt.Println(redisService.Get("sso1"))
+	// redisService.Put("sso1", "sso1", 1, time.Minute)
+	// fmt.Println(redisService.Get("sso1"))
 	// getServerFromSentinel()
 	// smTest.Sm2WriteKeyFile()
 	// smTest.Sm2Encrypt()
-	// biliToupiao()
+	biliToupiao()
 	// bililive.AllDanMu()
 	// for {
 	// 	time.Sleep(5 * time.Minute)
