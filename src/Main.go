@@ -226,11 +226,11 @@ func main() {
 	// getServerFromSentinel()
 	// smTest.Sm2WriteKeyFile()
 	// smTest.Sm2Encrypt()
-	biliToupiao()
-	// bililive.AllDanMu()
-	// for {
-	// 	time.Sleep(5 * time.Minute)
-	// }
+	// biliToupiao()
+	bililive.AllDanMu()
+	for {
+		time.Sleep(5 * time.Minute)
+	}
 }
 
 func writeToListFile(mp map[int]int, list []string, total int) {
