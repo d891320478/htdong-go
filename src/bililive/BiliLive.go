@@ -13,9 +13,10 @@ import (
 )
 
 const roomId = "222272"
+const uid = "325170"
 
-// const uid = "325170"
-const uid = "210232"
+// const uid = "210232"
+
 const danmuFilePath = "/data/biliDanMu222272/%d-%s-%s.log"
 
 func Register(channel chan int, total int) {

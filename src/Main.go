@@ -226,8 +226,8 @@ func main() {
 	// getServerFromSentinel()
 	// smTest.Sm2WriteKeyFile()
 	// smTest.Sm2Encrypt()
-	// biliToupiao()
-	bililive.AllDanMu()
+	biliToupiao()
+	// bililive.AllDanMu()
 	for {
 		time.Sleep(5 * time.Minute)
 	}
