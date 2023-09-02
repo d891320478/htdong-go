@@ -17,6 +17,7 @@ var stopTime int64
 
 func StartBiliHttp() {
 	stopTime = time.Now().Unix() + 100
+
 	fmt.Println(stopTime)
 
 	http.HandleFunc("/startGetDanMu", startGetDanMu)
