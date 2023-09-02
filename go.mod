@@ -3,7 +3,7 @@ module github.com/htdong/gotest
 go 1.18
 
 require (
-	github.com/Akegarasu/blivedm-go v1.3.1
+	github.com/Akegarasu/blivedm-go v1.4.0
 	github.com/aokoli/goutils v1.1.1
 	github.com/fsnotify/fsnotify v1.5.1
 	github.com/larspensjo/config v0.0.0-20160228172812-b6db95dc6321
@@ -22,5 +22,6 @@ require (
 	github.com/tidwall/match v1.1.1 // indirect
 	github.com/tidwall/pretty v1.2.0 // indirect
 	golang.org/x/sys v0.6.0 // indirect
+	google.golang.org/protobuf v1.31.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

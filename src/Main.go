@@ -211,7 +211,7 @@ func biliToupiao() {
 		} else {
 			fmt.Println(resp.StatusCode)
 		}
-		time.Sleep(5 * time.Second)
+		time.Sleep(3 * time.Second)
 	}
 	// var channel chan int = make(chan int)
 
