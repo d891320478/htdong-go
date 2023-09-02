@@ -5,7 +5,6 @@ import (
 	"context"
 	"crypto/rand"
 	"encoding/base64"
-	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -16,6 +15,7 @@ import (
 	"time"
 
 	"github.com/aokoli/goutils"
+	"github.com/htdong/gotest/src/bililive"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -162,7 +162,7 @@ func biliToupiao() {
 	fmt.Println("歌单放到list.txt，保存，然后按回车。。。。。。")
 	stdinReader.ReadString('\n')
 	// 读取歌单内容，生成编号，初始化票数
-	// mp := make(map[int]int)
+	mp := make(map[int]int)
 
 	f, _ := os.Open("list.txt")
 	defer f.Close()
@@ -189,38 +189,39 @@ func biliToupiao() {
 	}
 	total := len(list)
 
-	// for i := 0; i < total; i++ {
-	// 	mp[i] = 0
-	// }
+	for i := 0; i < total; i++ {
+		mp[i] = 0
+	}
 	fmt.Println(total)
 	fmt.Println(list)
-	// fmt.Println(mp)
+	fmt.Println(mp)
 	// 回写文件
+	writeToListFile(mp, list, total)
 	// 发请求start
-	http.Get("http://47.97.10.207:9961/htdong/liveVote/startVote")
-	time.Sleep(3 * time.Second)
-	http.Get(fmt.Sprintf("http://47.97.10.207:9961/startLive/startGetDanMu?total=%d", total))
-	mp := make(map[int]int)
-	for {
-		resp, _ := http.Get("http://47.97.10.207:9961/startLive/getCountRlt")
-		if resp.StatusCode == 200 {
-			defer resp.Body.Close()
-			jsonStr, _ := io.ReadAll(resp.Body)
-			json.Unmarshal(jsonStr, &mp)
-			writeToListFile(mp, list, total)
-		} else {
-			fmt.Println(resp.StatusCode)
-		}
-		time.Sleep(3 * time.Second)
-	}
-	// var channel chan int = make(chan int)
-
-	// bililive.Register(channel, total)
+	// http.Get("http://47.97.10.207:9961/htdong/liveVote/startVote")
+	// time.Sleep(3 * time.Second)
+	// http.Get(fmt.Sprintf("http://47.97.10.207:9961/startLive/startGetDanMu?total=%d", total))
+	// mp := make(map[int]int)
 	// for {
-	// 	val := <-channel
-	// 	mp[val-1]++
-	// 	writeToListFile(mp, list, total)
+	// 	resp, _ := http.Get("http://47.97.10.207:9961/startLive/getCountRlt")
+	// 	if resp.StatusCode == 200 {
+	// 		defer resp.Body.Close()
+	// 		jsonStr, _ := io.ReadAll(resp.Body)
+	// 		json.Unmarshal(jsonStr, &mp)
+	// 		writeToListFile(mp, list, total)
+	// 	} else {
+	// 		fmt.Println(resp.StatusCode)
+	// 	}
+	// 	time.Sleep(3 * time.Second)
 	// }
+	var channel chan int = make(chan int)
+
+	bililive.Register(channel, total)
+	for {
+		val := <-channel
+		mp[val-1]++
+		writeToListFile(mp, list, total)
+	}
 }
 
 func getServerFromSentinel() {
@@ -241,8 +242,8 @@ func main() {
 	// smTest.Sm2WriteKeyFile()
 	// smTest.Sm2Encrypt()
 	biliToupiao()
-	// bililive.AllDanMu()
 	// bililive.StartBiliHttp()
+	// bililive.AllDanMu()
 	// for {
 	// 	time.Sleep(5 * time.Minute)
 	// }
