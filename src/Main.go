@@ -5,6 +5,7 @@ import (
 	"context"
 	"crypto/rand"
 	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -15,7 +16,6 @@ import (
 	"time"
 
 	"github.com/aokoli/goutils"
-	"github.com/htdong/gotest/src/bililive"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -198,30 +198,30 @@ func biliToupiao() {
 	// 回写文件
 	writeToListFile(mp, list, total)
 	// 发请求start
-	// http.Get("http://47.97.10.207:9961/htdong/liveVote/startVote")
-	// time.Sleep(3 * time.Second)
-	// http.Get(fmt.Sprintf("http://47.97.10.207:9961/startLive/startGetDanMu?total=%d", total))
-	// mp := make(map[int]int)
-	// for {
-	// 	resp, _ := http.Get("http://47.97.10.207:9961/startLive/getCountRlt")
-	// 	if resp.StatusCode == 200 {
-	// 		defer resp.Body.Close()
-	// 		jsonStr, _ := io.ReadAll(resp.Body)
-	// 		json.Unmarshal(jsonStr, &mp)
-	// 		writeToListFile(mp, list, total)
-	// 	} else {
-	// 		fmt.Println(resp.StatusCode)
-	// 	}
-	// 	time.Sleep(3 * time.Second)
-	// }
-	var channel chan int = make(chan int)
-
-	bililive.Register(channel, total)
+	http.Get("http://47.97.10.207:9961/htdong/liveVote/startVote")
+	time.Sleep(3 * time.Second)
+	http.Get(fmt.Sprintf("http://47.97.10.207:9961/startLive/startGetDanMu?total=%d", total))
+	mp = make(map[int]int)
 	for {
-		val := <-channel
-		mp[val-1]++
-		writeToListFile(mp, list, total)
+		resp, _ := http.Get("http://47.97.10.207:9961/startLive/getCountRlt")
+		if resp.StatusCode == 200 {
+			defer resp.Body.Close()
+			jsonStr, _ := io.ReadAll(resp.Body)
+			json.Unmarshal(jsonStr, &mp)
+			writeToListFile(mp, list, total)
+		} else {
+			fmt.Println(resp.StatusCode)
+		}
+		time.Sleep(3 * time.Second)
 	}
+	// var channel chan int = make(chan int)
+
+	// bililive.Register(channel, total)
+	// for {
+	// 	val := <-channel
+	// 	mp[val-1]++
+	// 	writeToListFile(mp, list, total)
+	// }
 }
 
 func getServerFromSentinel() {
