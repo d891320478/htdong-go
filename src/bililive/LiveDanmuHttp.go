@@ -53,7 +53,7 @@ func count() {
 }
 
 func getCountRlt(w http.ResponseWriter, req *http.Request) {
-	stopTime = time.Now().Unix() + 100
+	stopTime = time.Now().Unix() + 50
 	lockMp.Lock()
 	defer lockMp.Unlock()
 	jsonStr, _ := json.Marshal(mp)

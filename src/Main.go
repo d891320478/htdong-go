@@ -201,7 +201,16 @@ func biliToupiao() {
 	// 发请求start
 	http.Get("http://47.97.10.207:9961/htdong/liveVote/startVote")
 	time.Sleep(3 * time.Second)
-	http.Get(fmt.Sprintf("http://47.97.10.207:9961/startLive/startGetDanMu?total=%d", total))
+	resp, _ := http.Get(fmt.Sprintf("http://47.97.10.207:9961/startLive/startGetDanMu?total=%d", total))
+	for {
+		fmt.Print("startGetDanMu ")
+		fmt.Println(resp.StatusCode)
+		if resp.StatusCode == 200 {
+			break
+		}
+		time.Sleep(1 * time.Second)
+		resp, _ = http.Get(fmt.Sprintf("http://47.97.10.207:9961/startLive/startGetDanMu?total=%d", total))
+	}
 	mp = make(map[int]int)
 	for {
 		resp, _ := http.Get("http://47.97.10.207:9961/startLive/getCountRlt")
@@ -209,6 +218,7 @@ func biliToupiao() {
 			defer resp.Body.Close()
 			jsonStr, _ := io.ReadAll(resp.Body)
 			json.Unmarshal(jsonStr, &mp)
+			fmt.Println(mp)
 			writeToListFile(mp, list, total)
 		} else {
 			fmt.Println(resp.StatusCode)
