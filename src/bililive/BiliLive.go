@@ -12,12 +12,8 @@ import (
 	"github.com/Akegarasu/blivedm-go/message"
 )
 
-const roomId = "222272"
-
-// const uid = "325170"
-
-const uid = "210232"
-
+const roomId = 222272
+const cookie = ""
 const danmuFilePath = "/data/biliDanMu222272/%d-%s-%s.log"
 
 var c *client.Client
@@ -25,7 +21,8 @@ var c *client.Client
 func Register(channel chan int, total int) {
 	limit := make(map[int]int)
 	lock := new(sync.RWMutex)
-	c = client.NewClient(roomId, uid)
+	c = client.NewClient(roomId)
+	c.SetCookie(cookie)
 	//弹幕事件
 	c.OnDanmaku(func(danmaku *message.Danmaku) {
 		fmt.Printf("[弹幕] %s[%d]：%s\n", danmaku.Sender.Uname, danmaku.Sender.Uid, danmaku.Content)
@@ -59,7 +56,8 @@ func CloseClient() {
 }
 
 func AllDanMu() {
-	c := client.NewClient(roomId, uid)
+	c := client.NewClient(roomId)
+	c.SetCookie(cookie)
 	//弹幕事件
 	c.OnDanmaku(func(danmaku *message.Danmaku) {
 		if danmaku.Type != message.EmoticonDanmaku {
@@ -69,6 +67,9 @@ func AllDanMu() {
 	err := c.Start()
 	if err != nil {
 		panic(err)
+	}
+	for {
+		time.Sleep(5 * time.Minute)
 	}
 }
 
