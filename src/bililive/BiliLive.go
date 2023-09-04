@@ -13,7 +13,6 @@ import (
 )
 
 const roomId = 222272
-const cookie = ""
 const danmuFilePath = "/data/biliDanMu222272/%d-%s-%s.log"
 
 var c *client.Client
@@ -22,7 +21,7 @@ func Register(channel chan int, total int) {
 	limit := make(map[int]int)
 	lock := new(sync.RWMutex)
 	c = client.NewClient(roomId)
-	c.SetCookie(cookie)
+	c.SetCookie(getCookieFromFile())
 	//弹幕事件
 	c.OnDanmaku(func(danmaku *message.Danmaku) {
 		fmt.Printf("[弹幕] %s[%d]：%s\n", danmaku.Sender.Uname, danmaku.Sender.Uid, danmaku.Content)
@@ -57,7 +56,7 @@ func CloseClient() {
 
 func AllDanMu() {
 	c := client.NewClient(roomId)
-	c.SetCookie(cookie)
+	c.SetCookie(getCookieFromFile())
 	//弹幕事件
 	c.OnDanmaku(func(danmaku *message.Danmaku) {
 		if danmaku.Type != message.EmoticonDanmaku {
@@ -82,4 +81,12 @@ func writeToFile(tm, uname, content string, uid int) {
 	write.WriteString(fmt.Sprintf("[%s] %s[%d]: %s\n", tm, uname, uid, content))
 	write.Flush()
 	file.Close()
+}
+
+func getCookieFromFile() string {
+	b, err := os.ReadFile("/data/biliCookie.txt")
+	if err != nil {
+		panic(err)
+	}
+	return string(b)
 }
