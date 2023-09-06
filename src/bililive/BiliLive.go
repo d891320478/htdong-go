@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 
@@ -88,5 +89,5 @@ func getCookieFromFile() string {
 	if err != nil {
 		panic(err)
 	}
-	return string(b)
+	return strings.TrimSpace(string(b))
 }
