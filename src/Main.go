@@ -253,8 +253,8 @@ func main() {
 	// smTest.Sm2WriteKeyFile()
 	// smTest.Sm2Encrypt()
 	// biliToupiao()
-	// bililive.StartBiliHttp()
-	bililive.AllDanMu()
+	bililive.StartBiliHttp()
+	// bililive.AllDanMu()
 }
 
 func writeToListFile(mp map[int]int, list []string, total int) {
