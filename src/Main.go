@@ -16,7 +16,6 @@ import (
 	"time"
 
 	"github.com/aokoli/goutils"
-	"github.com/htdong/gotest/src/bililive"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -170,9 +169,9 @@ func biliToupiao() {
 	a, _ := io.ReadAll(f)
 	a = append(a, 13)
 	var list []string
-	list = append(list, "规则：征集时请把想听的歌打在弹幕 选曲没任何限制0w0")
-	list = append(list, "投票时每个人最多三票")
-	list = append(list, "会唱的里面得票最高的今天唱 不会唱的里面得票最高的下周唱")
+	// list = append(list, "规则：征集时请把想听的歌打在弹幕 选曲没任何限制0w0")
+	// list = append(list, "投票时每个人最多三票")
+	// list = append(list, "会唱的里面得票最高的今天唱 不会唱的里面得票最高的下周唱")
 
 	tmp := make([]byte, 0)
 	for _, v := range a {
@@ -252,8 +251,8 @@ func main() {
 	// getServerFromSentinel()
 	// smTest.Sm2WriteKeyFile()
 	// smTest.Sm2Encrypt()
-	// biliToupiao()
-	bililive.StartBiliHttp()
+	biliToupiao()
+	// bililive.StartBiliHttp()
 	// bililive.AllDanMu()
 }
 
@@ -261,6 +260,11 @@ func writeToListFile(mp map[int]int, list []string, total int) {
 	file, _ := os.OpenFile(song_list_file, os.O_WRONLY, os.ModeAppend)
 	defer file.Close()
 	write := bufio.NewWriter(file)
+	write.WriteString("规则：征集时请把想听的歌打在弹幕 选曲没任何限制0w0\r\n")
+	write.WriteString("投票时每个人最多三票\r\n")
+	write.WriteString("从会唱的里面选两首的票最高的今天唱/吹\r\n")
+	write.WriteString("不会的里最高的下周唱（不含卡祖笛曲）\r\n")
+	write.WriteString("想听卡祖笛版也可以，在歌名前面加上卡祖笛三字。下周翻唱\r\n")
 	for i := 0; i < total; i++ {
 		val := strconv.Itoa(i+1) + ". " + strings.TrimSpace(list[i]) + "   " + strconv.Itoa(mp[i]) + " 票\r\n"
 		write.WriteString(val)
