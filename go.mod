@@ -3,7 +3,7 @@ module github.com/htdong/gotest
 go 1.18
 
 require (
-	github.com/Akegarasu/blivedm-go v1.4.1-0.20230903052202-50502af7c072
+	github.com/Akegarasu/blivedm-go v1.5.0
 	github.com/aokoli/goutils v1.1.1
 	github.com/fsnotify/fsnotify v1.5.1
 	github.com/larspensjo/config v0.0.0-20160228172812-b6db95dc6321
