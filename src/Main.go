@@ -16,6 +16,7 @@ import (
 	"time"
 
 	"github.com/aokoli/goutils"
+	"github.com/htdong/gotest/src/bililive"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -251,9 +252,9 @@ func main() {
 	// getServerFromSentinel()
 	// smTest.Sm2WriteKeyFile()
 	// smTest.Sm2Encrypt()
-	biliToupiao()
+	// biliToupiao()
 	// bililive.StartBiliHttp()
-	// bililive.AllDanMu()
+	bililive.AllDanMu()
 }
 
 func writeToListFile(mp map[int]int, list []string, total int) {

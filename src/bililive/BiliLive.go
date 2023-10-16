@@ -2,6 +2,7 @@ package bililive
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"os"
 	"strconv"
@@ -58,11 +59,17 @@ func CloseClient() {
 func AllDanMu() {
 	c := client.NewClient(roomId)
 	c.SetCookie(getCookieFromFile())
-	//弹幕事件
+	// 弹幕事件
 	c.OnDanmaku(func(danmaku *message.Danmaku) {
 		if danmaku.Type != message.EmoticonDanmaku {
 			writeToFile(time.Unix(danmaku.Timestamp/1000, 0).Format("2006-01-02 15:04:05"), danmaku.Sender.Uname, danmaku.Content, danmaku.Sender.Uid)
 		}
+	})
+	// 醒目留言
+	c.OnSuperChat(func(superChat *message.SuperChat) {
+		jsonStr, _ := json.Marshal(superChat)
+		fmt.Println(string(jsonStr))
+		writeToFile(time.Unix(int64(superChat.StartTime), 0).Format("2006-01-02 15:04:05")+"[SC]", superChat.UserInfo.Uname, superChat.Message, superChat.Uid)
 	})
 	err := c.Start()
 	if err != nil {
