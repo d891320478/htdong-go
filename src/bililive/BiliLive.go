@@ -92,7 +92,7 @@ func writeToFile(tm, uname, content string, uid int) {
 }
 
 func getCookieFromFile() string {
-	b, err := os.ReadFile("/data/biliCookie.txt")
+	b, err := os.ReadFile("/root/conf/biliCookie.txt")
 	if err != nil {
 		panic(err)
 	}
