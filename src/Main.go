@@ -229,9 +229,9 @@ func biliToupiao() {
 
 	// bililive.Register(channel, total)
 	// for {
-	// 	val := <-channel
-	// 	mp[val-1]++
-	// 	writeToListFile(mp, list, total)
+	//     val := <-channel
+	//     mp[val-1]++
+	//     writeToListFile(mp, list, total)
 	// }
 }
 
