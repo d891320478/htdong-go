@@ -1,4 +1,4 @@
-module github.com/htdong/gotest
+module github.com/htdong-go
 
 go 1.18
 

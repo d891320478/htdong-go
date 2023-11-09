@@ -16,7 +16,7 @@ import (
 	"time"
 
 	"github.com/aokoli/goutils"
-	"github.com/htdong/gotest/src/bililive"
+	"github.com/htdong-go/src/bililive"
 	"github.com/redis/go-redis/v9"
 )
 
