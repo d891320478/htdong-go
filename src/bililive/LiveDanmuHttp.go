@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 	"strconv"
 	"sync"
 	"time"
@@ -17,9 +18,6 @@ var stopTime int64
 
 func StartBiliHttp() {
 	stopTime = time.Now().Unix() + 100
-
-	fmt.Println(stopTime)
-
 	http.HandleFunc("/startGetDanMu", startGetDanMu)
 	http.HandleFunc("/getCountRlt", getCountRlt)
 	go http.ListenAndServe(":9777", nil)
@@ -29,7 +27,7 @@ func StartBiliHttp() {
 		now := time.Now().Unix()
 		fmt.Printf("%d %d\n", now, stopTime)
 		if now > stopTime {
-			break
+			os.Exit(0)
 		}
 	}
 }

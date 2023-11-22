@@ -10,13 +10,13 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"os/exec"
 	"runtime/debug"
 	"strconv"
 	"strings"
 	"time"
 
 	"github.com/aokoli/goutils"
-	"github.com/htdong-go/src/bililive"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -254,7 +254,27 @@ func main() {
 	// smTest.Sm2Encrypt()
 	// biliToupiao()
 	// bililive.StartBiliHttp()
-	bililive.AllDanMu()
+	// bililive.AllDanMu()
+	f, _ := os.Open("/Users/dht31261/Desktop/1.txt")
+	defer f.Close()
+	a, _ := io.ReadAll(f)
+	tmp := make([]byte, 0)
+	cnt := 0
+	for _, v := range a {
+		if v == byte(10) || v == byte(13) {
+			ss := string(tmp)
+			if len(strings.TrimSpace(ss)) > 0 {
+				c := strings.TrimSpace(runCmd("wc -l \"/Users/dht31261/Desktop/src/" + strings.ReplaceAll(strings.TrimSpace(ss), "$", "\\$") + "\""))
+				cc := strings.Split(c, " ")
+				x, _ := strconv.Atoi(strings.TrimSpace(cc[len(cc)-2]))
+				cnt += x
+			}
+			tmp = make([]byte, 0)
+		} else {
+			tmp = append(tmp, v)
+		}
+	}
+	fmt.Println(cnt)
 }
 
 func writeToListFile(mp map[int]int, list []string, total int) {
@@ -271,4 +291,16 @@ func writeToListFile(mp map[int]int, list []string, total int) {
 		write.WriteString(val)
 	}
 	write.Flush()
+}
+
+func runCmd(cmd string) string {
+	cmd1 := exec.Command("/bin/bash", "-c", cmd)
+	out1, err := cmd1.Output()
+	if err != nil {
+		fmt.Println(cmd)
+		fmt.Println(err)
+		return "0 a"
+	} else {
+		return string(out1)
+	}
 }
