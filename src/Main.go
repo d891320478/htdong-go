@@ -15,7 +15,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/htdong-go/src/bililive"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -156,7 +155,8 @@ func main() {
 	// smTest.Sm2Encrypt()
 	// biliToupiao()
 	// bililive.StartBiliHttp()
-	bililive.AllDanMu()
+	_, err := base64.StdEncoding.DecodeString("R0vb5IR/9DGZ6PYT3VgzQyo15OmHnm3Dx87O1ceLr9mN71H2/gzPdENMAFULVuMbWzMkfY9dI2qc+XMbkBawsg==")
+	fmt.Println(err)
 }
 
 func writeToListFile(mp map[int]int, list []string, total int) {
