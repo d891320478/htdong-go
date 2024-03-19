@@ -18,6 +18,7 @@ func main() {
 	defer Throwable()
 	// smTest.Sm2WriteKeyFile()
 	// smTest.Sm2Encrypt()
-	var val []string = nil
-	fmt.Println(len(val))
+	// var val []string = nil
+	// fmt.Println(len(val))
+	// cronTest.Test1()
 }
